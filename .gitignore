@@ -16,11 +16,6 @@ node_modules/
 # Environment & Configs
 # ================================
 **/.env
-**/.env.*
-.env.local
-.env.development
-.env.test
-.env.production
 
 # ================================
 # Build & Dependency Files
