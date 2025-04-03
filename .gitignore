@@ -1,0 +1,103 @@
+# ================================
+# Node.js & JavaScript
+# ================================
+**/node_modules/
+node_modules/
+.npm
+.pnpm
+.yarn-integrity
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# ================================
+# Environment & Configs
+# ================================
+**/.env
+**/.env.*
+.env.local
+.env.development
+.env.test
+.env.production
+
+# ================================
+# Build & Dependency Files
+# ================================
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+.turbo/
+*.tsbuildinfo
+
+# ================================
+# Logs & Runtime Data
+# ================================
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.pid
+*.seed
+*.pid.lock
+.DS_Store
+
+# ================================
+# IDE & Editor
+# ================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# ================================
+# Testing & Coverage
+# ================================
+coverage/
+.nyc_output/
+*.lcov
+
+# ================================
+# Package Manager
+# ================================
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ================================
+# System Files
+# ================================
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+
+# ================================
+# Custom Exclusions (Your Specific Files)
+# ================================
+week 4/OTP/Firebase - Push/postman-*.tar.gz
+week 4/OTP/Firebase - Push/*.zip
+week 4/OTP/Firebase - Push/*.exe
+week 4/OTP/Firebase/notification.json
+
+# ================================
+# Database & Local Storage
+# ================================
+*.db
+*.sqlite
+*.sqlite3
+data/
+*.dump
+
+# ================================
+# Debug Files
+# ================================
+*.pem
+*.der
+*.key
