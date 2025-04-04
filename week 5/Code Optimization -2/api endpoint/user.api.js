@@ -2,6 +2,14 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const route = express.Router();
 
+const redis = require('redis');
+const redisClient = redis.createClient();
+redisClient.on('error', (err) => console.log('Redis Client Error', err));
+(async () => {
+    await redisClient.connect();
+})();
+
+
 const db = require("../schema/user.schema");
 
 const validateUser = require("../middleware/input_validation");
@@ -49,6 +57,8 @@ route.post('/login', async (req, res) => {
     res.send({message : `Login Successfull`}).status(200);
 })
 
+
+const getRedisKey = (page, limit) => `allUsers: ${page}:${limit}`;
 route.get('/allUsers', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
@@ -62,6 +72,23 @@ route.get('/allUsers', async (req, res) => {
             });
         }
 
+        const redisKey = getRedisKey(page, limit);
+
+        const cachedData = await redisClient.get(redisKey);
+        const cachedTotal = await redisClient.get('totalUsers');
+
+        if(cachedData && cachedTotal){
+            console.log(`Serving from Redis`);
+            return res.status(200).json({
+                success: true,
+                results: JSON.parse(cachedData),
+                totalPages: Math.ceil(parseInt(cachedTotal) / limit),
+                currentPage: page,
+                totalItems: parseInt(cachedTotal)
+            })
+        }
+
+        console.log("Fetching from MongoDB");
         const users = await db.find({})
             .select('-password -__v')
             .skip(skip)
@@ -69,6 +96,14 @@ route.get('/allUsers', async (req, res) => {
             .lean();
 
         const totalUsers = await db.countDocuments();
+
+        // Cache in Redis (expire in 5 minutes)
+        await redisClient.setEx(
+            redisKey,
+            30, // 5 minutes (300 seconds)
+            JSON.stringify(users)
+        );
+        await redisClient.setEx('totalUsers', 300, totalUsers.toString());
 
         res.status(200).json({
             success: true,
@@ -80,7 +115,7 @@ route.get('/allUsers', async (req, res) => {
 
     } catch (err) {
         console.error('Database error:', err);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
             message: 'Server error fetching users',
             error: process.env.NODE_ENV === 'development' ? err.message : undefined
