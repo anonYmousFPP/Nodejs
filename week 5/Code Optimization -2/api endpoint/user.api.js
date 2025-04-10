@@ -32,7 +32,7 @@ route.post('/signup', validateUser, async (req, res) => {
 
         const hashedPassword = await hashed(password);
 
-        const response = await db.create({name, age, email, password: hashedPassword, phoneNumber});
+        const response = await db.create({name, age, email, password: hashedPassword, phoneNumber}).explain();
         res.status(201).json({ message: 'User created', user: req.validatedData });
     }
     catch(err){

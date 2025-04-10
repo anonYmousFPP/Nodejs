@@ -9,11 +9,9 @@ const server = http.createServer((req, res) => {
     });
 
     req.on('end', () => {
-      // Parse JSON data
       const data = JSON.parse(body);
       console.log('Received JSON data:', data);
 
-      // Send a JSON response
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: 'Data received', data }));
     });
