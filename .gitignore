@@ -74,14 +74,6 @@ ehthumbs.db
 [Dd]esktop.ini
 
 # ================================
-# Custom Exclusions (Your Specific Files)
-# ================================
-week 4/OTP/Firebase - Push/postman-*.tar.gz
-week 4/OTP/Firebase - Push/*.zip
-week 4/OTP/Firebase - Push/*.exe
-week 4/OTP/Firebase/notification.json
-
-# ================================
 # Database & Local Storage
 # ================================
 *.db
